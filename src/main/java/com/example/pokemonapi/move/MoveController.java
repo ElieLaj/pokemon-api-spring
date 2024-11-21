@@ -23,8 +23,11 @@ public class MoveController {
     }
 
     @PostMapping
-    public Move createMove(@RequestBody Move newMove) {
-        return moveService.createMove(newMove);
+    public Move createMove(
+            @RequestBody Move newMove,
+            @RequestParam(required = false) Long typeId,
+            @RequestParam(required = false) String typeName) {
+        return moveService.createMove(newMove, typeId, typeName);
     }
 
     @PutMapping(path = "{moveId}")
@@ -33,7 +36,9 @@ public class MoveController {
             @RequestParam(required = false) String name,
             @RequestParam(required = false) Integer power,
             @RequestParam(required = false) Integer accuracy,
-            @RequestParam(required = false) Long typeId){
-        return moveService.updateMove(id, name, power, accuracy, typeId);
+            @RequestParam(required = false) Long typeId,
+            @RequestParam(required = false) String typeName)
+            {
+        return moveService.updateMove(id, name, power, accuracy, typeId, typeName);
     }
 }

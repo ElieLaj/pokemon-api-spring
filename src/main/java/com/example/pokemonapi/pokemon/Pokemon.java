@@ -27,6 +27,7 @@ public class Pokemon {
     Long id;
     String name;
     int hp;
+    int maxHp;
     int attack;
     int defense;
     int specialAttack;
@@ -39,24 +40,29 @@ public class Pokemon {
     @JsonIgnoreProperties("pokemon")
     private Set<PokemonMove> pokemonMoves = new HashSet<>();
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
             name = "pokemon_types",
             joinColumns = @JoinColumn(name = "pokemon_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "type_id", referencedColumnName = "id")
     )
     @JsonIgnoreProperties(value = { "moves", "pokemons" })
-    private List<Type> types = new ArrayList<Type>();
+    private List<Type> types = new ArrayList<>();
 
     public Pokemon() {
     }
 
-    public Pokemon(String name, int hp, int attack, int speed) {
-        super();
+    public Pokemon(Long id, String name, int hp, int attack, int defense, int specialAttack, int specialDefense, int speed, int expRate) {
+        this.id = id;
         this.name = name;
         this.hp = hp;
         this.attack = attack;
+        this.defense = defense;
+        this.specialAttack = specialAttack;
+        this.specialDefense = specialDefense;
         this.speed = speed;
+        this.expRate = expRate;
+        this.maxHp = hp;
     }
 
     public List<Type> getTypes() {
@@ -73,6 +79,10 @@ public class Pokemon {
 
     public void removeType(Type type) {
         types.remove(type);
+    }
+
+    public void deleteTypes() {
+        types.clear();
     }
 
     public Set<PokemonMove> getPokemonMoves() {
@@ -158,6 +168,17 @@ public class Pokemon {
     public void setSpecialAttack(int specialAttack) {
         this.specialAttack = specialAttack;
     }
+
+    public int getMaxHp() {
+        return maxHp;
+    }
+
+    public void setMaxHp(int maxHp) {
+        this.maxHp = maxHp;
+    }
+
+
+
 }
 
 

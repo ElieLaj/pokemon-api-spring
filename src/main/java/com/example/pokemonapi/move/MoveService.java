@@ -22,15 +22,36 @@ public class MoveService {
         return moveRepository.findAll();
     }
 
-    public Move createMove(Move newMove) {
+    public Move createMove(Move newMove, Long typeId, String typeName) {
         moveRepository.findMoveByName(newMove.getName()).ifPresent(move -> {
             throw new IllegalStateException
                     ("Move with name " + newMove.getName() + " already exists");
         });
+
+        if (typeId != null && typeId > 0) {
+            Type type = (
+                    typeRepository.findById(typeId)
+                            .orElseThrow(() -> new IllegalStateException
+                                    ("Type with id " + typeId + " not found")
+                            )
+            );
+            newMove.setType(type);
+        }
+
+        if (typeName != null) {
+            Type type = (
+                    typeRepository.findTypeByName(typeName)
+                            .orElseThrow(() -> new IllegalStateException
+                                    ("Type with name " + typeName + " not found")
+                            )
+            );
+            newMove.setType(type);
+        }
+
         return moveRepository.save(newMove);
     }
 
-    public Move updateMove(Long id, String name, Integer power, Integer accuracy, Long typeId) {
+    public Move updateMove(Long id, String name, Integer power, Integer accuracy, Long typeId, String typeName) {
         Move move = moveRepository.findById(id).orElseThrow(() -> new IllegalStateException("Move with id " + id + " not found"));
 
         if (name != null && !name.isEmpty() && !name.equals(move.getName())) {
@@ -54,6 +75,17 @@ public class MoveService {
             );
             move.setType(type);
         }
+
+        if (typeName != null && (move.getType() == null || !typeName.equals(move.getType().getName()) )) {
+            Type type = (
+                    typeRepository.findTypeByName(typeName)
+                            .orElseThrow(() -> new IllegalStateException
+                                    ("Type with name " + typeName + " not found")
+                            )
+            );
+            move.setType(type);
+        }
+
         return moveRepository.save(move);
     }
 }

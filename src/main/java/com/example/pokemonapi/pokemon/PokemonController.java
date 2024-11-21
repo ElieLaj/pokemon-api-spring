@@ -18,13 +18,24 @@ public class PokemonController {
     }
 
     @PostMapping
-    public Pokemon createPokemon(@RequestBody Pokemon newPokemon) {
-        return pokemonService.createPokemon(newPokemon);
+    public Pokemon createPokemon(
+            @RequestBody Pokemon newPokemon,
+            @RequestParam(required = false) Long typeId,
+            @RequestParam(required = false) String typeName,
+            @RequestParam(required = false) Long typeId2,
+            @RequestParam(required = false) String typeName2
+    ) {
+        return pokemonService.createPokemon(newPokemon, typeId, typeName, typeId2, typeName2);
     }
 
     @GetMapping
     public List<Pokemon> getPokemon() {
         return pokemonService.getPokemons();
+    }
+
+    @GetMapping(path = "{pokemonId}")
+    public Pokemon getPokemon(@PathVariable("pokemonId") Long pokemonId) {
+        return pokemonService.getPokemon(pokemonId);
     }
 
     @DeleteMapping(path = "{pokemonId}")
@@ -43,8 +54,15 @@ public class PokemonController {
             @RequestParam(required = false) Integer specialDefense,
             @RequestParam(required = false) Integer speed,
             @RequestParam(required = false) Integer expRate,
-            @RequestParam(required = false) Long typeId
+            @RequestParam(required = false) Long typeId,
+            @RequestParam(required = false) String typeName
     ) {
-        return pokemonService.updatePokemon(pokemonId, name, hp, attack, defense, specialAttack, specialDefense, speed, expRate, typeId);
+        return pokemonService.updatePokemon(pokemonId, name, hp, attack, defense, specialAttack, specialDefense, speed, expRate, typeId, typeName);
     }
+
+    @PutMapping(path = "{pokemonId}/reset_type")
+    public Pokemon resetType(@PathVariable("pokemonId") Long pokemonId) {
+        return pokemonService.resetType(pokemonId);
+    }
+
 }
