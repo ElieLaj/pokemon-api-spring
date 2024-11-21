@@ -1,0 +1,46 @@
+package com.example.pokemonapi.pokemon;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@CrossOrigin
+@RequestMapping("api/v1/pokemon")
+public class PokemonController {
+
+    private final PokemonService pokemonService;
+
+    @Autowired
+    public PokemonController(PokemonService pokemonService) {
+        this.pokemonService = pokemonService;
+    }
+
+    @PostMapping
+    public Pokemon createPokemon(@RequestBody Pokemon newPokemon) {
+        return pokemonService.createPokemon(newPokemon);
+    }
+
+    @GetMapping
+    public List<Pokemon> getPokemon() {
+        return pokemonService.getPokemons();
+    }
+
+    @DeleteMapping(path = "{pokemonId}")
+    public void deletePokemon(@PathVariable("pokemonId") Long pokemonId) {
+        pokemonService.deletePokemon(pokemonId);
+    }
+
+    @PutMapping(path = "{pokemonId}")
+    public Pokemon updatePokemon(
+            @PathVariable("pokemonId") Long pokemonId,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) Integer hp,
+            @RequestParam(required = false) Integer attack,
+            @RequestParam(required = false) Integer speed,
+            @RequestParam(required = false) Long typeId
+    ) {
+        return pokemonService.updatePokemon(pokemonId, name, hp, attack, speed, typeId);
+    }
+}

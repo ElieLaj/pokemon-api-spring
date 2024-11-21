@@ -1,0 +1,35 @@
+package com.example.pokemonapi.pokemonMove;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("api/v1/pokemon_move")
+public class PokemonMoveController {
+
+        private final PokemonMoveService pokemonMoveService;
+
+        @Autowired
+        public PokemonMoveController(PokemonMoveService pokemonMoveService) {
+            this.pokemonMoveService = pokemonMoveService;
+        }
+
+        @GetMapping
+        public List<PokemonMove> getPokemonMoves() {
+            return pokemonMoveService.getPokemonMoves();
+        }
+
+        @GetMapping(path = "{pokemonId}")
+        public List<PokemonMove> getPokemonMovesByPokemonId(@PathVariable Long pokemonId) {
+            return pokemonMoveService.getPokemonMovesByPokemonId(pokemonId);
+        }
+
+        @PostMapping(path = "{pokemonId}/{moveId}")
+        public PokemonMove createPokemonMove
+                (@PathVariable Long pokemonId, @PathVariable Long moveId) {
+            return pokemonMoveService.createPokemonMove(pokemonId, moveId);
+        }
+}
