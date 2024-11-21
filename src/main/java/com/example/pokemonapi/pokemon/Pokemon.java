@@ -28,16 +28,12 @@ public class Pokemon {
     String name;
     int hp;
     int attack;
+    int defense;
+    int specialAttack;
+    int specialDefense;
     int speed;
 
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    @JoinTable(
-//            name = "pokemon_moves",
-//            joinColumns = @JoinColumn(name = "pokemon_id", referencedColumnName = "id"),
-//            inverseJoinColumns = @JoinColumn(name = "move_id", referencedColumnName = "id")
-//    )
-//    @JsonIgnoreProperties("pokemons")
-//    private List<Move> moves = new ArrayList<Move>();
+    int expRate;
 
     @OneToMany(mappedBy = "pokemon", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("pokemon")
@@ -130,4 +126,38 @@ public class Pokemon {
     public void setSpeed(int speed) {
         this.speed = speed;
     }
+
+    public int getDefense() {
+        return defense;
+    }
+
+    public void setDefense(int defense) {
+        this.defense = defense;
+    }
+
+    public int getExpRate() {
+        return expRate;
+    }
+
+    public void setExpRate(int expRate) {
+        this.expRate = expRate;
+    }
+
+    public int getSpecialDefense() {
+        return specialDefense;
+    }
+
+    public void setSpecialDefense(int specialDefense) {
+        this.specialDefense = specialDefense;
+    }
+
+    public int getSpecialAttack() {
+        return specialAttack;
+    }
+
+    public void setSpecialAttack(int specialAttack) {
+        this.specialAttack = specialAttack;
+    }
 }
+
+

@@ -38,9 +38,13 @@ public class PokemonController {
             @RequestParam(required = false) String name,
             @RequestParam(required = false) Integer hp,
             @RequestParam(required = false) Integer attack,
+            @RequestParam(required = false) Integer defense,
+            @RequestParam(required = false) Integer specialAttack,
+            @RequestParam(required = false) Integer specialDefense,
             @RequestParam(required = false) Integer speed,
+            @RequestParam(required = false) Integer expRate,
             @RequestParam(required = false) Long typeId
     ) {
-        return pokemonService.updatePokemon(pokemonId, name, hp, attack, speed, typeId);
+        return pokemonService.updatePokemon(pokemonId, name, hp, attack, defense, specialAttack, specialDefense, speed, expRate, typeId);
     }
 }

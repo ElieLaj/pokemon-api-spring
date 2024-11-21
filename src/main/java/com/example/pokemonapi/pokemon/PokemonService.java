@@ -45,7 +45,7 @@ public class PokemonService {
     }
 
     @Transactional
-    public Pokemon updatePokemon(Long pokemonId, String name, Integer hp, Integer attack, Integer speed, Long typeId) {
+    public Pokemon updatePokemon(Long pokemonId, String name, Integer hp, Integer attack, Integer defense, Integer specialAttack, Integer specialDefense, Integer speed, Integer expRate, Long typeId) {
         Pokemon pokemon = pokemonRepository.findById(pokemonId)
                 .orElseThrow(() -> new IllegalStateException("Pokemon with id " + pokemonId + " not found"));
 
@@ -64,8 +64,24 @@ public class PokemonService {
             pokemon.setAttack(attack);
         }
 
+        if (defense != null && defense > 0 && defense != pokemon.getDefense()) {
+            pokemon.setDefense(defense);
+        }
+
+        if (specialAttack != null && specialAttack > 0 && specialAttack != pokemon.getSpecialAttack()) {
+            pokemon.setSpecialAttack(specialAttack);
+        }
+
+        if (specialDefense != null && specialDefense > 0 && specialDefense != pokemon.getSpecialDefense()) {
+            pokemon.setSpecialDefense(specialDefense);
+        }
+
         if (speed != null && speed > 0 && speed != pokemon.getSpeed()) {
             pokemon.setSpeed(speed);
+        }
+
+        if (expRate != null && expRate > 0 && expRate != pokemon.getExpRate()) {
+            pokemon.setExpRate(expRate);
         }
 
         if (typeId != null && typeId > 0) {
