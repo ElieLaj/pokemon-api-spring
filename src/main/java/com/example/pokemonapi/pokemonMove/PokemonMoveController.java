@@ -22,6 +22,11 @@ public class PokemonMoveController {
             return pokemonMoveService.getPokemonMoves();
         }
 
+        @DeleteMapping(path = "{pokemonMoveId}")
+        public void deletePokemonMove(@PathVariable Long pokemonMoveId) {
+            pokemonMoveService.deletePokemonMove(pokemonMoveId);
+        }
+
         @GetMapping(path = "{pokemonId}")
         public List<PokemonMove> getPokemonMovesByPokemonId(@PathVariable Long pokemonId) {
             return pokemonMoveService.getPokemonMovesByPokemonId(pokemonId);

@@ -36,4 +36,10 @@ public class PokemonMoveService {
     public List<PokemonMove> getPokemonMovesByPokemonId(Long pokemonId) {
         return pokemonMoveRepository.findPokemonMovesByPokemonId(pokemonId);
     }
+
+    public void deletePokemonMove(Long pokemonMoveId) {
+        boolean exists = pokemonMoveRepository.existsById(pokemonMoveId);
+        if (!exists) throw new IllegalStateException("PokemonMove with id " + pokemonMoveId + " not found");
+        pokemonMoveRepository.deleteById(pokemonMoveId);
+    }
 }
