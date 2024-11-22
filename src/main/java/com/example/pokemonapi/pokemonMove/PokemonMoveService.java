@@ -57,4 +57,14 @@ public class PokemonMoveService {
         }
         return pokemonMoves;
     }
+
+    public PokemonMove updatePokemonMove(PokemonMoveDTO pokemonMoveDTO, Long pokemonMoveId) {
+        PokemonMove pokemonMove = pokemonMoveRepository.findById(pokemonMoveId).orElseThrow(() -> new IllegalStateException("PokemonMove with id " + pokemonMoveId + " not found"));
+
+        pokemonMove.setMove(moveRepository.findMoveByName(pokemonMoveDTO.getMoveName()).orElseThrow());
+        pokemonMove.setPokemon(pokemonRepository.findPokemonByName(pokemonMoveDTO.getPokemonName()).orElseThrow());
+        pokemonMove.setLevel(pokemonMoveDTO.getLevel());
+
+        return pokemonMoveRepository.save(pokemonMove);
+    }
 }

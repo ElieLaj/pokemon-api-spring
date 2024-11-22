@@ -45,4 +45,12 @@ public class PokemonMoveController {
 
             return pokemonMoveService.createPokemonMoves(newPokemonMovesDTO);
         }
+
+        @PutMapping(path = "{pokemonMoveId}")
+        public PokemonMove updatePokemonMove(
+                @PathVariable Long pokemonMoveId,
+                @RequestBody PokemonMoveDTO pokemonMoveDTO) {
+
+            return pokemonMoveService.updatePokemonMove(pokemonMoveDTO, pokemonMoveId);
+        }
 }

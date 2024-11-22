@@ -12,4 +12,5 @@ import java.util.Optional;
 public interface PokemonMoveRepository extends JpaRepository<PokemonMove, Long> {
 
     List<PokemonMove> findPokemonMovesByPokemonId(Long pokemonId);
+    PokemonMove findPokemonMovesByMove_NameAndPokemon_Name(String moveName, String pokemonName);
 }
