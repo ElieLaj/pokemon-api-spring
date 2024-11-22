@@ -22,21 +22,11 @@ public class MoveService {
         return moveRepository.findAll();
     }
 
-    public Move createMove(Move newMove, Long typeId, String typeName) {
+    public Move createMove(Move newMove, String typeName) {
         moveRepository.findMoveByName(newMove.getName()).ifPresent(move -> {
             throw new IllegalStateException
                     ("Move with name " + newMove.getName() + " already exists");
         });
-
-        if (typeId != null && typeId > 0) {
-            Type type = (
-                    typeRepository.findById(typeId)
-                            .orElseThrow(() -> new IllegalStateException
-                                    ("Type with id " + typeId + " not found")
-                            )
-            );
-            newMove.setType(type);
-        }
 
         if (typeName != null) {
             Type type = (

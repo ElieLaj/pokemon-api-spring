@@ -5,6 +5,7 @@ import com.example.pokemonapi.pokemon.PokemonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,10 +26,12 @@ public class PokemonMoveService {
         return pokemonMoveRepository.findAll();
     }
 
-    public PokemonMove createPokemonMove(Long pokemonId, Long moveId) {
+    public PokemonMove createPokemonMove(PokemonMoveDTO pokemonMoveDTO) {
         PokemonMove pokemonMove = new PokemonMove();
-        pokemonMove.setPokemon(pokemonRepository.findPokemonById(pokemonId).orElseThrow());
-        pokemonMove.setMove(moveRepository.findMoveById(moveId));
+        pokemonMove.setPokemon(pokemonRepository.findPokemonByName(pokemonMoveDTO.getPokemonName()).orElseThrow());
+        pokemonMove.setMove(moveRepository.findMoveByName(pokemonMoveDTO.getMoveName()).orElseThrow());
+        pokemonMove.setLevel(pokemonMoveDTO.getLevel());
+
         return pokemonMoveRepository.save(pokemonMove);
     }
 
@@ -40,5 +43,18 @@ public class PokemonMoveService {
         boolean exists = pokemonMoveRepository.existsById(pokemonMoveId);
         if (!exists) throw new IllegalStateException("PokemonMove with id " + pokemonMoveId + " not found");
         pokemonMoveRepository.deleteById(pokemonMoveId);
+    }
+
+    public List<PokemonMove> createPokemonMoves(List<PokemonMoveDTO> newPokemonMovesDTO) {
+
+        List<PokemonMove> pokemonMoves = new ArrayList<>();
+        for (PokemonMoveDTO pokemonMoveDTO : newPokemonMovesDTO) {
+            PokemonMove pokemonMove = new PokemonMove();
+            pokemonMove.setPokemon(pokemonRepository.findPokemonByName(pokemonMoveDTO.getPokemonName()).orElseThrow());
+            pokemonMove.setMove(moveRepository.findMoveByName(pokemonMoveDTO.getMoveName()).orElseThrow());
+            pokemonMove.setLevel(pokemonMoveDTO.getLevel());
+            pokemonMoves.add(pokemonMoveRepository.save(pokemonMove));
+        }
+        return pokemonMoves;
     }
 }

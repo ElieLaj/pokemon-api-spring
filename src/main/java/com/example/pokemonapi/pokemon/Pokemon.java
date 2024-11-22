@@ -1,5 +1,6 @@
 package com.example.pokemonapi.pokemon;
 
+import com.example.pokemonapi.stage.Stage;
 import com.example.pokemonapi.type.Type;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
@@ -49,6 +50,16 @@ public class Pokemon {
     @JsonIgnoreProperties(value = { "moves", "pokemons" })
     private List<Type> types = new ArrayList<>();
 
+    @ManyToMany
+    @JoinTable(
+            name = "pokemon_stages",
+            joinColumns = @JoinColumn(name = "pokemon_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "stage_id", referencedColumnName = "id")
+    )
+    @JsonIgnoreProperties(value = { "pokemons", "stages" })
+    private List<Stage> stages = new ArrayList<>();
+
+
     public Pokemon() {
     }
 
@@ -63,6 +74,22 @@ public class Pokemon {
         this.speed = speed;
         this.expRate = expRate;
         this.maxHp = hp;
+    }
+
+    public List<Stage> getStages() {
+        return stages;
+    }
+
+    public void setStages(List<Stage> stages) {
+        this.stages = stages;
+    }
+
+    public void addStage(Stage stage) {
+        stages.add(stage);
+    }
+
+    public void removeStage(Stage stage) {
+        stages.remove(stage);
     }
 
     public List<Type> getTypes() {

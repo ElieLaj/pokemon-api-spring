@@ -7,6 +7,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/pokemon_move")
+@CrossOrigin
 public class PokemonMoveController {
 
         private final PokemonMoveService pokemonMoveService;
@@ -31,9 +32,17 @@ public class PokemonMoveController {
             return pokemonMoveService.getPokemonMovesByPokemonId(pokemonId);
         }
 
-        @PostMapping(path = "{pokemonId}/{moveId}")
-        public PokemonMove createPokemonMove
-                (@PathVariable Long pokemonId, @PathVariable Long moveId) {
-            return pokemonMoveService.createPokemonMove(pokemonId, moveId);
+        @PostMapping
+        public PokemonMove createPokemonMove(
+                @RequestBody PokemonMoveDTO newPokemonMoveDTO
+                ) {
+            return pokemonMoveService.createPokemonMove(newPokemonMoveDTO);
+        }
+
+        @PostMapping("bulk")
+        public List<PokemonMove> createPokemonMoves(
+                @RequestBody List<PokemonMoveDTO> newPokemonMovesDTO) {
+
+            return pokemonMoveService.createPokemonMoves(newPokemonMovesDTO);
         }
 }

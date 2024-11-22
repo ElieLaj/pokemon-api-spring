@@ -3,6 +3,7 @@ package com.example.pokemonapi.pokemon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -19,13 +20,44 @@ public class PokemonController {
 
     @PostMapping
     public Pokemon createPokemon(
-            @RequestBody Pokemon newPokemon,
-            @RequestParam(required = false) Long typeId,
-            @RequestParam(required = false) String typeName,
-            @RequestParam(required = false) Long typeId2,
-            @RequestParam(required = false) String typeName2
+            @RequestBody PokemonDTO newPokemonDTO
     ) {
-        return pokemonService.createPokemon(newPokemon, typeId, typeName, typeId2, typeName2);
+        Pokemon newPokemon = new Pokemon(
+                null,
+                newPokemonDTO.getName(),
+                newPokemonDTO.getHp(),
+                newPokemonDTO.getAttack(),
+                newPokemonDTO.getDefense(),
+                newPokemonDTO.getSpecialAttack(),
+                newPokemonDTO.getSpecialDefense(),
+                newPokemonDTO.getSpeed(),
+                newPokemonDTO.getExpRate()
+        );
+        return pokemonService.createPokemon(newPokemon, newPokemonDTO.getTypeName());
+    }
+
+    @PostMapping(path = "bulk")
+    public List<Pokemon> createPokemons(@RequestBody List<PokemonDTO> newPokemonsDTO) {
+        List<Pokemon> pokemons = new ArrayList<>();
+
+        for (PokemonDTO dto : newPokemonsDTO) {
+            Pokemon newPokemon = new Pokemon(
+                    null,
+                    dto.getName(),
+                    dto.getHp(),
+                    dto.getAttack(),
+                    dto.getDefense(),
+                    dto.getSpecialAttack(),
+                    dto.getSpecialDefense(),
+                    dto.getSpeed(),
+                    dto.getExpRate()
+            );
+
+            Pokemon createdPokemon = pokemonService.createPokemon(newPokemon, dto.getTypeName());
+            pokemons.add(createdPokemon);
+        }
+
+        return pokemons;
     }
 
     @GetMapping

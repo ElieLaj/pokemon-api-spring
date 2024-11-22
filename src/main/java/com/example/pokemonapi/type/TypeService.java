@@ -28,4 +28,13 @@ public class TypeService {
     public List<Type> getTypes() {
         return typeRepository.findAll();
     }
+
+    public List<Type> createTypes(List<Type> newTypes) {
+        for (Type newType : newTypes) {
+            typeRepository.findTypeByName(newType.getName()).ifPresent(type -> {
+                throw new IllegalStateException("Type with name " + newType.getName() + " already exists");
+            });
+        }
+        return typeRepository.saveAll(newTypes);
+    }
 }

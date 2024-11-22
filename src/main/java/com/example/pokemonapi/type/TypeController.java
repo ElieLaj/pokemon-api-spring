@@ -32,4 +32,9 @@ public class TypeController {
     public Type createType(@RequestBody Type newType) {
         return typeService.createType(newType);
     }
+
+    @PostMapping(path = "bulk")
+    public List<Type> createTypes(@RequestBody List<Type> newTypes) {
+        return typeService.createTypes(newTypes);
+    }
 }

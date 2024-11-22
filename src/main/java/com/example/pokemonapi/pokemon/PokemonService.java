@@ -20,46 +20,16 @@ public class PokemonService {
         this.typeRepository = typeRepository;
     }
 
-    public Pokemon createPokemon(Pokemon newPokemon, Long typeId, String typeName, Long typeId2, String typeName2) {
+    public Pokemon createPokemon(Pokemon newPokemon, List<String> typeNames) {
         pokemonRepository.findPokemonByName(newPokemon.getName()).ifPresent(pokemon -> {
             throw new IllegalStateException("Pokemon with name " + newPokemon.getName() + " already exists");
         });
 
-        if (typeId != null && typeId > 0) {
-            Type type = (
-                    typeRepository.findById(typeId)
-                            .orElseThrow(() -> new IllegalStateException
-                                    ("Type with id " + typeId + " not found")
-                            )
-            );
-            newPokemon.addType(type);
-        }
-
-        if (typeName != null) {
+        for (String typeName : typeNames) {
             Type type = (
                     typeRepository.findTypeByName(typeName)
                             .orElseThrow(() -> new IllegalStateException
                                     ("Type with name " + typeName + " not found")
-                            )
-            );
-            newPokemon.addType(type);
-        }
-
-        if (typeId2 != null && typeId2 > 0) {
-            Type type = (
-                    typeRepository.findById(typeId2)
-                            .orElseThrow(() -> new IllegalStateException
-                                    ("Type with id " + typeId2 + " not found")
-                            )
-            );
-            newPokemon.addType(type);
-        }
-
-        if (typeName2 != null) {
-            Type type = (
-                    typeRepository.findTypeByName(typeName2)
-                            .orElseThrow(() -> new IllegalStateException
-                                    ("Type with name " + typeName2 + " not found")
                             )
             );
             newPokemon.addType(type);
@@ -150,6 +120,8 @@ public class PokemonService {
         pokemon.deleteTypes();
         return pokemon;
     }
+
+
 }
 
 
