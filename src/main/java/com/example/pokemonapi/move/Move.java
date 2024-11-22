@@ -1,6 +1,7 @@
 package com.example.pokemonapi.move;
 
 import com.example.pokemonapi.category.Category;
+import com.example.pokemonapi.moveEffect.MoveEffect;
 import com.example.pokemonapi.type.Type;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
@@ -33,6 +34,10 @@ public class Move {
     @OneToMany(mappedBy = "move", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("move")
     private Set<PokemonMove> pokemonMoves = new HashSet<>();
+
+    @OneToMany(mappedBy = "move", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("move")
+    private Set<MoveEffect> moveEffects = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id")
@@ -121,5 +126,21 @@ public class Move {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Set<MoveEffect> getMoveEffects() {
+        return moveEffects;
+    }
+
+    public void setMoveEffects(Set<MoveEffect> moveEffects) {
+        this.moveEffects = moveEffects;
+    }
+
+    public void addMoveEffect(MoveEffect moveEffect) {
+        moveEffects.add(moveEffect);
+    }
+
+    public void removeMoveEffect(MoveEffect moveEffect) {
+        moveEffects.remove(moveEffect);
     }
 }

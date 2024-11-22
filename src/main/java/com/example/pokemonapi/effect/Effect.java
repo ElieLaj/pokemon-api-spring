@@ -1,9 +1,12 @@
 package com.example.pokemonapi.effect;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.example.pokemonapi.moveEffect.MoveEffect;
+import com.example.pokemonapi.pokemonMove.PokemonMove;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Table(name = "effect")
 @Entity
@@ -13,6 +16,10 @@ public class Effect {
     private Long id;
 
     private String name;
+
+    @OneToMany(mappedBy = "effect", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("effect")
+    private Set<MoveEffect> moveEffects = new HashSet<>();
 
     public Effect() {
     }
@@ -35,5 +42,21 @@ public class Effect {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<MoveEffect> getMoveEffects() {
+        return moveEffects;
+    }
+
+    public void setMoveEffects(Set<MoveEffect> moveEffects) {
+        this.moveEffects = moveEffects;
+    }
+
+    public void addMoveEffect(MoveEffect moveEffect) {
+        moveEffects.add(moveEffect);
+    }
+
+    public void removeMoveEffect(MoveEffect moveEffect) {
+        moveEffects.remove(moveEffect);
     }
 }
