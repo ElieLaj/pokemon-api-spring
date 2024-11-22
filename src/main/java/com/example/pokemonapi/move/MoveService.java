@@ -2,31 +2,40 @@ package com.example.pokemonapi.move;
 
 import com.example.pokemonapi.category.Category;
 import com.example.pokemonapi.category.CategoryRepository;
+import com.example.pokemonapi.effect.Effect;
+import com.example.pokemonapi.effect.EffectRepository;
+import com.example.pokemonapi.moveEffect.MoveEffect;
+import com.example.pokemonapi.moveEffect.MoveEffectRepository;
 import com.example.pokemonapi.type.Type;
 import com.example.pokemonapi.type.TypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class MoveService {
     private final MoveRepository moveRepository;
     private final TypeRepository typeRepository;
     private final CategoryRepository categoryRepository;
+    private final EffectRepository effectRepository;
+    private final MoveEffectRepository moveEffectRepository;
 
     @Autowired
-    public MoveService(MoveRepository moveRepository, TypeRepository typeRepository, CategoryRepository categoryRepository) {
+    public MoveService(MoveRepository moveRepository, TypeRepository typeRepository, CategoryRepository categoryRepository, EffectRepository effectRepository, MoveEffectRepository moveEffectRepository) {
         this.moveRepository = moveRepository;
         this.typeRepository = typeRepository;
         this.categoryRepository = categoryRepository;
+        this.effectRepository = effectRepository;
+        this.moveEffectRepository = moveEffectRepository;
     }
 
     public List<Move> getMoves() {
         return moveRepository.findAll();
     }
 
-    public Move createMove(Move newMove, String typeName, String categoryName) {
+    public Move createMove(Move newMove, String typeName, String categoryName, String effectName, Long odds) {
         moveRepository.findMoveByName(newMove.getName()).ifPresent(move -> {
             throw new IllegalStateException
                     ("Move with name " + newMove.getName() + " already exists");
@@ -51,10 +60,27 @@ public class MoveService {
             );
             newMove.setCategory(category);
         }
+
+        if (effectName != null) {
+            Effect effect = (
+                    effectRepository.findEffectByName(effectName)
+                            .orElseThrow(() -> new IllegalStateException
+                                    ("Effect with name " + effectName + " not found")
+                            )
+            );
+
+            MoveEffect moveEffect = new MoveEffect();
+            moveEffect.setMove(newMove);
+            moveEffect.setEffect(effect);
+            moveEffect.setOdds(odds);
+
+            newMove.addMoveEffect(moveEffect);
+        }
+
         return moveRepository.save(newMove);
     }
 
-    public Move updateMove(Long id, String name, Integer power, Integer accuracy, Long typeId, String typeName, String categoryName) {
+    public Move updateMove(Long id, String name, Integer power, Integer accuracy, Long typeId, String typeName, String categoryName, String effectName, Long odds) {
         Move move = moveRepository.findById(id).orElseThrow(() -> new IllegalStateException("Move with id " + id + " not found"));
 
         if (name != null && !name.isEmpty() && !name.equals(move.getName())) {
@@ -99,6 +125,24 @@ public class MoveService {
             move.setCategory(category);
         }
 
+        if (effectName != null) {
+            Effect effect = (
+                    effectRepository.findEffectByName(effectName)
+                            .orElseThrow(() -> new IllegalStateException
+                                    ("Effect with name " + effectName + " not found")
+                            )
+            );
+            move.deleteMoveEffects();
+
+            MoveEffect moveEffect = new MoveEffect();
+            moveEffect.setMove(move);
+            moveEffect.setEffect(effect);
+            moveEffect.setOdds(odds);
+            move.addMoveEffect(moveEffect);
+
+            moveEffectRepository.save(moveEffect);
+        }
+
         return moveRepository.save(move);
     }
 
@@ -141,6 +185,25 @@ public class MoveService {
                             )
             );
             move.setCategory(category);
+        }
+
+        if (dto.getEffect() != null) {
+            Effect effect = (
+                    effectRepository.findEffectByName(dto.getEffect())
+                            .orElseThrow(() -> new IllegalStateException
+                                    ("Effect with name " + dto.getEffect() + " not found")
+                            )
+            );
+            move.deleteMoveEffects();
+
+            MoveEffect moveEffect = new MoveEffect();
+            moveEffect.setMove(move);
+            moveEffect.setEffect(effect);
+            moveEffect.setOdds(dto.getOdds());
+
+            move.addMoveEffect(moveEffect);
+
+            moveEffectRepository.save(moveEffect);
         }
 
         return moveRepository.save(move);

@@ -1,6 +1,7 @@
 package com.example.pokemonapi.move;
 
 import com.example.pokemonapi.category.Category;
+import com.example.pokemonapi.effect.Effect;
 import com.example.pokemonapi.moveEffect.MoveEffect;
 import com.example.pokemonapi.type.Type;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -142,5 +143,9 @@ public class Move {
 
     public void removeMoveEffect(MoveEffect moveEffect) {
         moveEffects.remove(moveEffect);
+    }
+
+    public void deleteMoveEffects() {
+        moveEffects.clear();
     }
 }

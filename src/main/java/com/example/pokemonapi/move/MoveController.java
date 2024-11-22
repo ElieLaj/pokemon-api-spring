@@ -34,7 +34,7 @@ public class MoveController {
                 dto.getPower(),
                 dto.getAccuracy()
         );
-        return moveService.createMove(newMove, dto.getTypeName(), dto.getCategory());
+        return moveService.createMove(newMove, dto.getTypeName(), dto.getCategory(), dto.getEffect(), dto.getOdds());
     }
 
     @PostMapping(path = "bulk")
@@ -48,7 +48,7 @@ public class MoveController {
                     dto.getAccuracy()
             );
 
-            Move createdMove = moveService.createMove(newMove, dto.getTypeName(), dto.getCategory());
+            Move createdMove = moveService.createMove(newMove, dto.getTypeName(), dto.getCategory(), dto.getEffect(), dto.getOdds());
             moves.add(createdMove);
         }
 
@@ -63,10 +63,12 @@ public class MoveController {
             @RequestParam(required = false) Integer accuracy,
             @RequestParam(required = false) Long typeId,
             @RequestParam(required = false) String typeName,
-            @RequestParam(required = false) String categoryName
+            @RequestParam(required = false) String categoryName,
+            @RequestParam(required = false) String effect,
+            @RequestParam(required = false) Long odds
     )
             {
-        return moveService.updateMove(id, name, power, accuracy, typeId, typeName, categoryName);
+        return moveService.updateMove(id, name, power, accuracy, typeId, typeName, categoryName, effect, odds);
     }
 
     @PatchMapping(path = "{moveId}")
