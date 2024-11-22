@@ -2,6 +2,7 @@ package com.example.pokemonapi.move;
 
 import com.example.pokemonapi.pokemon.Pokemon;
 import com.example.pokemonapi.pokemon.PokemonDTO;
+import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +34,7 @@ public class MoveController {
                 dto.getPower(),
                 dto.getAccuracy()
         );
-        return moveService.createMove(newMove, dto.getTypeName());
+        return moveService.createMove(newMove, dto.getTypeName(), dto.getCategory());
     }
 
     @PostMapping(path = "bulk")
@@ -47,7 +48,7 @@ public class MoveController {
                     dto.getAccuracy()
             );
 
-            Move createdMove = moveService.createMove(newMove, dto.getTypeName());
+            Move createdMove = moveService.createMove(newMove, dto.getTypeName(), dto.getCategory());
             moves.add(createdMove);
         }
 
@@ -61,8 +62,24 @@ public class MoveController {
             @RequestParam(required = false) Integer power,
             @RequestParam(required = false) Integer accuracy,
             @RequestParam(required = false) Long typeId,
-            @RequestParam(required = false) String typeName)
+            @RequestParam(required = false) String typeName,
+            @RequestParam(required = false) String categoryName
+    )
             {
-        return moveService.updateMove(id, name, power, accuracy, typeId, typeName);
+        return moveService.updateMove(id, name, power, accuracy, typeId, typeName, categoryName);
+    }
+
+    @PatchMapping(path = "{moveId}")
+    public Move patchMove(
+            @PathVariable("moveId") Long id,
+            @RequestBody MoveDTO dto
+    ) {
+        return moveService.patchMove(id, dto);
+    }
+
+
+    @DeleteMapping(path = "{moveId}")
+    public void deleteMove(@PathVariable Long moveId) {
+        moveService.deleteMove(moveId);
     }
 }

@@ -54,7 +54,7 @@ public class PokemonService {
     }
 
     @Transactional
-    public Pokemon updatePokemon(Long pokemonId, String name, Integer hp, Integer attack, Integer defense, Integer specialAttack, Integer specialDefense, Integer speed, Integer expRate, Long typeId, String typeName) {
+    public Pokemon updatePokemon(Long pokemonId, String name, Integer hp, Integer attack, Integer defense, Integer specialAttack, Integer specialDefense, Integer speed, Integer expRate, List<String> typeName) {
         Pokemon pokemon = pokemonRepository.findById(pokemonId)
                 .orElseThrow(() -> new IllegalStateException("Pokemon with id " + pokemonId + " not found"));
 
@@ -94,19 +94,13 @@ public class PokemonService {
             pokemon.setExpRate(expRate);
         }
 
-        if (typeId != null && typeId > 0 && pokemon.getTypes().size() < 2) {
-            Type type = typeRepository.findById(typeId).orElseThrow(() -> new IllegalStateException("Move with id " + typeId + " not found"));
-            pokemon.addType(type);
-        }
-
-        if (typeName != null && pokemon.getTypes().size() < 2 && (pokemon.getTypes().isEmpty() || (pokemon.getTypes().stream().noneMatch(type -> {return typeName.equals(type.getName()); } )) )) {
-            Type type = (
-                    typeRepository.findTypeByName(typeName)
-                            .orElseThrow(() -> new IllegalStateException
-                                    ("Type with name " + typeName + " not found")
-                            )
-            );
-            pokemon.addType(type);
+        if (typeName != null && !typeName.isEmpty()) {
+            pokemon.deleteTypes();
+            for (String type : typeName) {
+                Type t = typeRepository.findTypeByName(type)
+                        .orElseThrow(() -> new IllegalStateException("Type with name " + type + " not found"));
+                pokemon.addType(t);
+            }
         }
 
         return pokemon;

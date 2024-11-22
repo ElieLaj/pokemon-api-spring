@@ -72,4 +72,22 @@ public class Type {
     public void setName(String name) {
         this.name = name;
     }
+
+    public void addPokemon(Pokemon pokemon) {
+        pokemons.add(pokemon);
+    }
+
+    public void addMove(Move move) {
+        moves.add(move);
+    }
+
+    public void removePokemon(Pokemon pokemon) {
+        pokemons.remove(pokemon);
+    }
+
+    public void removeMove(Move move) {
+        moves.remove(move);
+    }
+
+
 }

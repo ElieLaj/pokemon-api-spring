@@ -78,23 +78,9 @@ public class PokemonController {
     @PutMapping(path = "{pokemonId}")
     public Pokemon updatePokemon(
             @PathVariable("pokemonId") Long pokemonId,
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) Integer hp,
-            @RequestParam(required = false) Integer attack,
-            @RequestParam(required = false) Integer defense,
-            @RequestParam(required = false) Integer specialAttack,
-            @RequestParam(required = false) Integer specialDefense,
-            @RequestParam(required = false) Integer speed,
-            @RequestParam(required = false) Integer expRate,
-            @RequestParam(required = false) Long typeId,
-            @RequestParam(required = false) String typeName
-    ) {
-        return pokemonService.updatePokemon(pokemonId, name, hp, attack, defense, specialAttack, specialDefense, speed, expRate, typeId, typeName);
+            @RequestBody PokemonDTO dto) {
+        return pokemonService.updatePokemon(pokemonId, dto.getName(), dto.getHp(), dto.getAttack(), dto.getDefense(), dto.getSpecialAttack(), dto.getSpecialDefense(), dto.getSpeed(), dto.getExpRate(), dto.getTypeName());
     }
 
-    @PutMapping(path = "{pokemonId}/reset_type")
-    public Pokemon resetType(@PathVariable("pokemonId") Long pokemonId) {
-        return pokemonService.resetType(pokemonId);
-    }
 
 }
