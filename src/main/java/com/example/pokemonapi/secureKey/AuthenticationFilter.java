@@ -6,6 +6,8 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,6 +18,8 @@ import java.io.PrintWriter;
 
 public class AuthenticationFilter extends GenericFilterBean {
 
+    private static final Logger logger = LoggerFactory.getLogger(AuthenticationFilter.class);
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
             throws IOException, ServletException {
@@ -23,6 +27,7 @@ public class AuthenticationFilter extends GenericFilterBean {
             Authentication authentication = AuthenticationService.getAuthentication((HttpServletRequest) request);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (Exception exp) {
+            logger.error("Authentication failed: {}", exp.getMessage(), exp); // Log détaillé
             HttpServletResponse httpResponse = (HttpServletResponse) response;
             httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             httpResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
@@ -30,6 +35,7 @@ public class AuthenticationFilter extends GenericFilterBean {
             writer.print(exp.getMessage());
             writer.flush();
             writer.close();
+            return; // Arrête le filtre ici
         }
 
         filterChain.doFilter(request, response);
