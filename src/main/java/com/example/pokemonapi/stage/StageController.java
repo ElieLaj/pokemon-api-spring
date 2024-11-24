@@ -27,6 +27,11 @@ public class StageController {
                 return stageService.getStageById(id);
             }
 
+            @GetMapping(path = "randomStage")
+            public Stage getRandomStage() {
+                return stageService.getRandomStage();
+            }
+
             @PostMapping
             public Stage createStage(@RequestBody Stage newStage) {
                 return stageService.createStage(newStage);

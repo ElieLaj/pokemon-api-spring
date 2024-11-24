@@ -54,7 +54,7 @@ public class PokemonService {
     }
 
     @Transactional
-    public Pokemon updatePokemon(Long pokemonId, String name, Integer hp, Integer attack, Integer defense, Integer specialAttack, Integer specialDefense, Integer speed, Integer expRate, List<String> typeName) {
+    public Pokemon updatePokemon(Long pokemonId, String name, Integer hp, Integer attack, Integer defense, Integer specialAttack, Integer specialDefense, Integer speed, Integer expRate, List<String> typeName, Integer catchRate) {
         Pokemon pokemon = pokemonRepository.findById(pokemonId)
                 .orElseThrow(() -> new IllegalStateException("Pokemon with id " + pokemonId + " not found"));
 
@@ -101,6 +101,10 @@ public class PokemonService {
                         .orElseThrow(() -> new IllegalStateException("Type with name " + type + " not found"));
                 pokemon.addType(t);
             }
+        }
+
+        if (catchRate != null && catchRate > 0 && catchRate != pokemon.getCatchRate()) {
+            pokemon.setCatchRate(catchRate);
         }
 
         return pokemon;

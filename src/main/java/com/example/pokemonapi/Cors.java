@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class Cors {
     @RequestMapping(value = "/**", method = RequestMethod.OPTIONS)
     public void handleOptions() {
-        // Méthode vide pour répondre aux pré-requêtes CORS
+
     }
 }

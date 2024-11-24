@@ -35,4 +35,9 @@ public class StageService {
     public void deleteStage(Long id) {
         stageRepository.deleteById(id);
     }
+
+    public Stage getRandomStage() {
+        List<Stage> stages = stageRepository.findAll();
+        return stages.get((int) (Math.random() * stages.size()));
+    }
 }

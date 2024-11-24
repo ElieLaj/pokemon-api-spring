@@ -14,11 +14,12 @@ public class StagePokemonController {
                 this.stagePokemonService = stagePokemonService;
             }
 
-            @PostMapping(path = "{stageId}/{pokemonId}")
+
+            @PostMapping(path = "")
             public Stage addPokemonToStage(
-                    @PathVariable Long stageId,
-                    @PathVariable Long pokemonId ) {
-                return stagePokemonService.addPokemonToStage(stageId, pokemonId);
+                    @RequestBody PokemonStageDTO pokemonStageDTO)
+            {
+                return stagePokemonService.addPokemonToStage(pokemonStageDTO.getStageId(), pokemonStageDTO.getPokemonId());
             }
 
 

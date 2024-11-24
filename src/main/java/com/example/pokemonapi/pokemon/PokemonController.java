@@ -31,7 +31,8 @@ public class PokemonController {
                 newPokemonDTO.getSpecialAttack(),
                 newPokemonDTO.getSpecialDefense(),
                 newPokemonDTO.getSpeed(),
-                newPokemonDTO.getExpRate()
+                newPokemonDTO.getExpRate(),
+                newPokemonDTO.getCatchRate()
         );
         return pokemonService.createPokemon(newPokemon, newPokemonDTO.getTypeName());
     }
@@ -50,7 +51,8 @@ public class PokemonController {
                     dto.getSpecialAttack(),
                     dto.getSpecialDefense(),
                     dto.getSpeed(),
-                    dto.getExpRate()
+                    dto.getExpRate(),
+                    dto.getCatchRate()
             );
 
             Pokemon createdPokemon = pokemonService.createPokemon(newPokemon, dto.getTypeName());
@@ -79,7 +81,7 @@ public class PokemonController {
     public Pokemon updatePokemon(
             @PathVariable("pokemonId") Long pokemonId,
             @RequestBody PokemonDTO dto) {
-        return pokemonService.updatePokemon(pokemonId, dto.getName(), dto.getHp(), dto.getAttack(), dto.getDefense(), dto.getSpecialAttack(), dto.getSpecialDefense(), dto.getSpeed(), dto.getExpRate(), dto.getTypeName());
+        return pokemonService.updatePokemon(pokemonId, dto.getName(), dto.getHp(), dto.getAttack(), dto.getDefense(), dto.getSpecialAttack(), dto.getSpecialDefense(), dto.getSpeed(), dto.getExpRate(), dto.getTypeName(), dto.getCatchRate());
     }
 
 

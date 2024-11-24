@@ -16,6 +16,8 @@ public class Effect {
     private Long id;
 
     private String name;
+    private Long turns;
+    private Double damage;
 
     @OneToMany(mappedBy = "effect", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("effect")
@@ -24,8 +26,10 @@ public class Effect {
     public Effect() {
     }
 
-    public Effect(String name) {
+    public Effect(String name, Long turns, Double damage) {
         this.name = name;
+        this.turns = turns;
+        this.damage = damage;
     }
 
     public Long getId() {
@@ -59,4 +63,21 @@ public class Effect {
     public void removeMoveEffect(MoveEffect moveEffect) {
         moveEffects.remove(moveEffect);
     }
+
+    public Long getTurns() {
+        return turns;
+    }
+
+    public void setTurns(Long turns) {
+        this.turns = turns;
+    }
+
+    public Double getDamage() {
+        return damage;
+    }
+
+    public void setDamage(Double damage) {
+        this.damage = damage;
+    }
+
 }

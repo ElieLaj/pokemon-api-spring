@@ -27,6 +27,9 @@ public class PokemonMoveService {
     }
 
     public PokemonMove createPokemonMove(PokemonMoveDTO pokemonMoveDTO) {
+        if (pokemonMoveRepository.findPokemonMovesByMove_NameAndPokemon_Name(pokemonMoveDTO.getMoveName(), pokemonMoveDTO.getPokemonName()).isPresent()) {
+            throw new IllegalStateException("PokemonMove with move " + pokemonMoveDTO.getMoveName() + " and pokemon " + pokemonMoveDTO.getPokemonName() + " already exists");
+        }
         PokemonMove pokemonMove = new PokemonMove();
         pokemonMove.setPokemon(pokemonRepository.findPokemonByName(pokemonMoveDTO.getPokemonName()).orElseThrow());
         pokemonMove.setMove(moveRepository.findMoveByName(pokemonMoveDTO.getMoveName()).orElseThrow());

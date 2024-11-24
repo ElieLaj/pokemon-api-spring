@@ -35,11 +35,17 @@ public class Stage {
     }
 
     public void addPokemon(Pokemon pokemon) {
-        this.pokemons.add(pokemon);
+        if (!this.pokemons.contains(pokemon)) {
+            this.pokemons.add(pokemon);
+            pokemon.addStage(this);
+        }
     }
 
     public void removePokemon(Pokemon pokemon) {
-        this.pokemons.remove(pokemon);
+        if (this.pokemons.contains(pokemon)) {
+            pokemon.removeStage(this);
+            this.pokemons.remove(pokemon);
+        }
     }
 
     public Long getId() {

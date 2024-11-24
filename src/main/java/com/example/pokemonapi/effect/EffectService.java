@@ -52,6 +52,8 @@ public class EffectService {
     public Effect updateEffect(Long id, Effect updatedEffect) {
         Effect effect = effectRepository.findById(id).orElseThrow(() -> new IllegalStateException("Effect with id " + id + " not found"));
         effect.setName(updatedEffect.getName());
+        effect.setTurns(updatedEffect.getTurns());
+        effect.setDamage(updatedEffect.getDamage());
         return effectRepository.save(effect);
     }
 }

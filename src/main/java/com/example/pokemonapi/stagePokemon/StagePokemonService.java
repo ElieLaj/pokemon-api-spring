@@ -31,8 +31,10 @@ public class StagePokemonService {
                                     ("Pokemon with id " + pokemonId + " not found")
                             )
             );
+
             stage.addPokemon(pokemon);
-            return stageRepository.save(stage);
+            stageRepository.save(stage);
+            return stage;
         }
 
         public Stage removePokemonFromStage(Long stageId, Long pokemonId) {

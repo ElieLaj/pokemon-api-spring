@@ -36,6 +36,7 @@ public class Pokemon {
     int speed;
 
     int expRate;
+    int catchRate;
 
     @OneToMany(mappedBy = "pokemon", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("pokemon")
@@ -63,7 +64,7 @@ public class Pokemon {
     public Pokemon() {
     }
 
-    public Pokemon(Long id, String name, int hp, int attack, int defense, int specialAttack, int specialDefense, int speed, int expRate) {
+    public Pokemon(Long id, String name, int hp, int attack, int defense, int specialAttack, int specialDefense, int speed, int expRate, int catchRate) {
         this.id = id;
         this.name = name;
         this.hp = hp;
@@ -74,6 +75,7 @@ public class Pokemon {
         this.speed = speed;
         this.expRate = expRate;
         this.maxHp = hp;
+        this.catchRate = catchRate;
     }
 
     public List<Stage> getStages() {
@@ -85,11 +87,17 @@ public class Pokemon {
     }
 
     public void addStage(Stage stage) {
-        stages.add(stage);
+        if (!this.stages.contains(stage)) {
+            this.stages.add(stage);
+            stage.addPokemon(this);
+        }
     }
 
     public void removeStage(Stage stage) {
-        stages.remove(stage);
+        if (this.stages.contains(stage)) {
+            stage.removePokemon(this);
+            stages.remove(stage);
+        }
     }
 
     public List<Type> getTypes() {
@@ -204,8 +212,13 @@ public class Pokemon {
         this.maxHp = maxHp;
     }
 
+    public int getCatchRate() {
+        return catchRate;
+    }
 
-
+    public void setCatchRate(int catchRate) {
+        this.catchRate = catchRate;
+    }
 }
 
 

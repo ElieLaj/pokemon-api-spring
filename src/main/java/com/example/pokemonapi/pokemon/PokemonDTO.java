@@ -11,9 +11,10 @@ public class PokemonDTO {
     private int specialDefense;
     private int speed;
     private int expRate;
+    private int catchRate;
     private List<String> typeName;
 
-    public PokemonDTO(String name, List<String> typeName, int expRate, int speed, int specialDefense, int specialAttack, int defense, int attack, int hp) {
+    public PokemonDTO(String name, List<String> typeName, int expRate, int speed, int specialDefense, int specialAttack, int defense, int attack, int hp, int catchRate) {
         this.name = name;
         this.typeName = typeName;
         this.expRate = expRate;
@@ -23,6 +24,7 @@ public class PokemonDTO {
         this.defense = defense;
         this.attack = attack;
         this.hp = hp;
+        this.catchRate = catchRate;
     }
 
     public String getName() {
@@ -95,5 +97,13 @@ public class PokemonDTO {
 
     public void setHp(int hp) {
         this.hp = hp;
+    }
+
+    public int getCatchRate() {
+        return catchRate;
+    }
+
+    public void setCatchRate(int catchRate) {
+        this.catchRate = catchRate;
     }
 }
