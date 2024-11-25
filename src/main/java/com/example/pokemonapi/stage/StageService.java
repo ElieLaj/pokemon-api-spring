@@ -3,6 +3,7 @@ package com.example.pokemonapi.stage;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StageService {
@@ -39,5 +40,22 @@ public class StageService {
     public Stage getRandomStage() {
         List<Stage> stages = stageRepository.findAll();
         return stages.get((int) (Math.random() * stages.size()));
+    }
+
+    public Stage modifySTage(Long stageId, Long minLevel, String name) {
+        Stage stage = stageRepository.findStageById(stageId);
+        if (stage != null){
+             if (minLevel != null) {
+                 stage.setMinLevel(minLevel);
+             }
+
+             if (name != null) {
+                 stage.setName(name);
+             }
+        }
+        else {
+            throw new IllegalStateException("Stage with id " + stageId + " not found");
+        }
+        return stageRepository.save(stage);
     }
 }

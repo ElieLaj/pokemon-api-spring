@@ -14,6 +14,7 @@ public class Stage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private Long minLevel;
 
     @ManyToMany(mappedBy = "stages")
     private List<Pokemon> pokemons = new ArrayList<>();
@@ -21,9 +22,10 @@ public class Stage {
     public Stage() {
     }
 
-    public Stage(String name) {
+    public Stage(String name, Long minLevel) {
         super();
         this.name = name;
+        this.minLevel = minLevel;
     }
 
     public List<Pokemon> getPokemons() {
@@ -62,5 +64,13 @@ public class Stage {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Long getMinLevel() {
+        return minLevel;
+    }
+
+    public void setMinLevel(Long minLevel) {
+        this.minLevel = minLevel;
     }
 }

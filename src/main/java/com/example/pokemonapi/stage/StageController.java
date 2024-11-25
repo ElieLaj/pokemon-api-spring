@@ -42,4 +42,13 @@ public class StageController {
                 stageService.deleteStage(id);
             }
 
+            @PutMapping(path = "{stageId}")
+            public Stage modifySTage(
+                    @PathVariable Long stageId,
+                    @RequestParam Long minLevel,
+                    @RequestParam String name
+            ) {
+                return stageService.modifySTage(stageId, minLevel, name);
+            }
+
 }

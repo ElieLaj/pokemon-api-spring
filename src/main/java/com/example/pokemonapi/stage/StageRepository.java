@@ -9,4 +9,6 @@ import java.util.Optional;
 public interface StageRepository extends JpaRepository<Stage, Long> {
 
     Optional<Stage> findStageByName(String name);
+
+    Stage findStageById(Long id);
 }
