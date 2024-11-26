@@ -1,47 +1,35 @@
-# flyctl launch added from .gitignore
-**\HELP.md
-# Ignore all target folders except the one at the root
-**/target/*
-!target/pokemon-api-0.0.1-SNAPSHOT.jar
-!**\.mvn\wrapper\maven-wrapper.jar
-!**\**\src\main\**\target
-!**\**\src\test\**\target
+# Ignorer tous les fichiers target
+target/
+!target/*.jar
 
-### STS ###
-**\.apt_generated
-**\.classpath
-**\.factorypath
-**\.project
-**\.settings
-**\.springBeans
-**\.sts4-cache
+# Ignorer les fichiers Maven/Gradle inutiles
+.mvn/
+*.iml
+*.ipr
+*.iws
+*.project
+*.classpath
+.gradle/
+.build/
 
-### IntelliJ IDEA ###
-**\.idea
-**\*.iws
-**\*.iml
-**\*.ipr
+# Ignorer les fichiers IDE
+.idea/
+*.xml
+*.vscode/
 
-### NetBeans ###
-nbproject\private
-nbbuild
-dist
-nbdist
-.nb-gradle
-**\build
-!**\**\src\main\**\build
-!**\**\src\test\**\build
+# Ignorer les fichiers NetBeans
+nbproject/
+dist/
+nbbuild/
 
-### VS Code ###
-**\.vscode
+# Fichiers spécifiques à Spring
+.apt_generated
+.factorypath
+.settings/
+.springBeans/
+.sts4-cache/
 
-# flyctl launch added from .idea\.gitignore
-# Default ignored files
-.idea\shelf
-.idea\workspace.xml
-# Editor-based HTTP Client requests
-.idea\httpRequests
-# Datasource local storage ignored files
-.idea\dataSources
-.idea\dataSources.local.xml
-fly.toml
+# Ignorer les fichiers de logs et temporaires
+*.log
+*.tmp
+*.bak
