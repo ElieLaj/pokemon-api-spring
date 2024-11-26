@@ -14,7 +14,6 @@ target/
 
 # Ignorer les fichiers IDE
 .idea/
-*.xml
 *.vscode/
 
 # Ignorer les fichiers NetBeans
