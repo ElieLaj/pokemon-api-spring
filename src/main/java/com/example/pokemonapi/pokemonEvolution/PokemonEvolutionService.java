@@ -33,17 +33,18 @@ public class PokemonEvolutionService {
                 () -> new IllegalStateException("Evolution pokemon not found")
         ));
 
-        Pokemon base = this.pokemonRepository.findById(dto.getFromPokemon()).orElseThrow(
-                () -> new IllegalStateException("Evolution pokemon not found")
-        );
-
+        Pokemon base = this.pokemonRepository.findById(dto.getFromPokemon()).orElseThrow();
 
         for(PokemonMove move : base.getPokemonMoves()){
             PokemonMove pokemonMove = new PokemonMove();
-            pokemonMove.setPokemon(pokemonRepository.findById(dto.getFromPokemon()).orElseThrow());
+            pokemonMove.setPokemon(pokemonRepository.findById(dto.getToPokemon()).orElseThrow());
             pokemonMove.setMove(move.getMove());
             pokemonMove.setLevel(move.getLevel());
-            this.pokemonMoveRepository.save(pokemonMove);
+            if (pokemonMoveRepository.findPokemonMovesByMove_NameAndPokemon_Name(pokemonMove.getMove().getName(), pokemonMove.getPokemon().getName()).isPresent()) {
+            }
+            else {
+                pokemonMoveRepository.save(pokemonMove);
+            }
         }
 
 
