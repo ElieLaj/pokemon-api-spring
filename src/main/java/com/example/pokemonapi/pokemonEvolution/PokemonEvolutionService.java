@@ -41,4 +41,13 @@ public class PokemonEvolutionService {
         return this.pokemonEvolutionRepository.findAll();
     }
 
+    public PokemonEvolution updateEvolution(Long id, Integer level) {
+        PokemonEvolution pokemonEvolution = this.pokemonEvolutionRepository.findById(id).orElseThrow(
+                () -> new IllegalStateException("Evolution not found")
+        );
+
+        pokemonEvolution.setLevelRequired(level);
+
+        return this.pokemonEvolutionRepository.save(pokemonEvolution);
+    }
 }

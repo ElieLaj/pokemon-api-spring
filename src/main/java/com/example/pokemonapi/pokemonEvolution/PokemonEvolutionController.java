@@ -25,9 +25,16 @@ public class PokemonEvolutionController {
     }
 
 
-
     @GetMapping
     public List<PokemonEvolution> findAllEvolutions() {
         return this.pokemonEvolutionService.findAllEvolutions();
+    }
+
+    @PutMapping(path = "{evolutionId}/{level}")
+    public PokemonEvolution updateEvolution(
+            @PathVariable("evolutionId") Long id,
+            @PathVariable("level") Integer level
+    ) {
+        return this.pokemonEvolutionService.updateEvolution(id, level);
     }
 }

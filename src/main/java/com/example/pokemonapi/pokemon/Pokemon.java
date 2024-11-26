@@ -68,7 +68,7 @@ public class Pokemon {
     public Pokemon() {
     }
 
-    public Pokemon(Long id, String name, int hp, int attack, int defense, int specialAttack, int specialDefense, int speed, int expRate, int catchRate) {
+    public Pokemon(Long id, String name, int hp, int attack, int defense, int specialAttack, int specialDefense, int speed, int expRate, int catchRater) {
         this.id = id;
         this.name = name;
         this.hp = hp;
