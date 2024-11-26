@@ -1,6 +1,9 @@
 package com.example.pokemonapi.pokemonEvolution;
 
+import com.example.pokemonapi.pokemon.Pokemon;
 import com.example.pokemonapi.pokemon.PokemonRepository;
+import com.example.pokemonapi.pokemonMove.PokemonMove;
+import com.example.pokemonapi.pokemonMove.PokemonMoveRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,11 +13,13 @@ import java.util.List;
 public class PokemonEvolutionService {
     private final PokemonEvolutionRepository pokemonEvolutionRepository;
     private final PokemonRepository pokemonRepository;
+    private final PokemonMoveRepository pokemonMoveRepository;
 
     @Autowired
-    public PokemonEvolutionService(PokemonEvolutionRepository pokemonEvolutionRepository, PokemonRepository pokemonRepository){
+    public PokemonEvolutionService(PokemonEvolutionRepository pokemonEvolutionRepository, PokemonRepository pokemonRepository, PokemonMoveRepository pokemonMoveRepository) {
         this.pokemonEvolutionRepository = pokemonEvolutionRepository;
         this.pokemonRepository = pokemonRepository;
+        this.pokemonMoveRepository = pokemonMoveRepository;
     }
 
     public PokemonEvolution addEvolution(PokemonEvolutionDTO dto){
@@ -31,6 +36,20 @@ public class PokemonEvolutionService {
         pokemonEvolution.setFromPokemon(this.pokemonRepository.findById(dto.getFromPokemon()).orElseThrow(
                 () -> new IllegalStateException("Base pokemon not found")
         ));
+
+        Pokemon base = this.pokemonRepository.findById(dto.getFromPokemon()).orElseThrow();
+
+        for(PokemonMove move : base.getPokemonMoves()){
+            PokemonMove pokemonMove = new PokemonMove();
+            pokemonMove.setPokemon(pokemonRepository.findById(dto.getToPokemon()).orElseThrow());
+            pokemonMove.setMove(move.getMove());
+            pokemonMove.setLevel(move.getLevel());
+            if (pokemonMoveRepository.findPokemonMovesByMove_NameAndPokemon_Name(pokemonMove.getMove().getName(), pokemonMove.getPokemon().getName()).isPresent()) {
+            }
+            else {
+                pokemonMoveRepository.save(pokemonMove);
+            }
+        }
 
         pokemonEvolution.setLevelRequired(dto.getLevel());
 
