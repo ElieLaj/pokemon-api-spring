@@ -1,5 +1,6 @@
 package com.example.pokemonapi.pokemon;
 
+import com.example.pokemonapi.pokemonEvolution.PokemonEvolution;
 import com.example.pokemonapi.stage.Stage;
 import com.example.pokemonapi.type.Type;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -59,6 +60,9 @@ public class Pokemon {
     )
     @JsonIgnoreProperties(value = { "pokemons", "stages" })
     private List<Stage> stages = new ArrayList<>();
+
+    @OneToMany(mappedBy = "fromPokemon", cascade = CascadeType.ALL)
+    private List<PokemonEvolution> evolutions;
 
 
     public Pokemon() {
@@ -218,6 +222,14 @@ public class Pokemon {
 
     public void setCatchRate(int catchRate) {
         this.catchRate = catchRate;
+    }
+
+    public List<PokemonEvolution> getEvolutions() {
+        return evolutions;
+    }
+
+    public void setEvolutions(List<PokemonEvolution> evolutions) {
+        this.evolutions = evolutions;
     }
 }
 
