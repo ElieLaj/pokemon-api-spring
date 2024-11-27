@@ -23,9 +23,13 @@ public class HealingItemService {
     }
 
     public HealingItem addHealingItem(HealingItemDTO newItem) {
-         Effect effect = effectRepository.findById(newItem.getEffect()).orElseThrow(
-                 () -> new IllegalStateException("Couldn't find Effect with id:" + newItem.getEffect())
-         );
+        Effect effect = null;
+
+        if (newItem.getEffect() != null) {
+            effect = effectRepository.findById(newItem.getEffect()).orElseThrow(
+                    () -> new IllegalStateException("Couldn't find Effect with id:" + newItem.getEffect())
+            );
+        }
 
          HealingItem healingItem = new HealingItem(newItem.getName(), newItem.getDescription(), newItem.getPrice(), newItem.getHealAmount(), effect);
 
