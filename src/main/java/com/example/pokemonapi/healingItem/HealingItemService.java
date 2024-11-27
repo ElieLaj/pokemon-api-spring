@@ -36,8 +36,8 @@ public class HealingItemService {
          return healingItemRepository.save(healingItem);
     }
 
-    public HealingItem patchHealingItem(HealingItemDTO newItem){
-        HealingItem healingItem = healingItemRepository.findById(newItem.getId()).orElseThrow(
+    public HealingItem patchHealingItem(Long healingItemId, HealingItemDTO newItem){
+        HealingItem healingItem = healingItemRepository.findById(healingItemId).orElseThrow(
                 () -> new IllegalStateException("Couldn't find Healing Item with id:" + newItem.getId())
         );
 

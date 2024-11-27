@@ -30,6 +30,6 @@ public class HealingItemController {
             @PathVariable Long healingItemId,
             @RequestBody HealingItemDTO dto
     ){
-        return healingItemService.patchHealingItem(dto);
+        return healingItemService.patchHealingItem(healingItemId, dto);
     }
 }
