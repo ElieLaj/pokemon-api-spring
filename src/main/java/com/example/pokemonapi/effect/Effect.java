@@ -1,11 +1,14 @@
 package com.example.pokemonapi.effect;
 
+import com.example.pokemonapi.healingItem.HealingItem;
 import com.example.pokemonapi.moveEffect.MoveEffect;
 import com.example.pokemonapi.pokemonMove.PokemonMove;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Table(name = "effect")
@@ -22,6 +25,10 @@ public class Effect {
     @OneToMany(mappedBy = "effect", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("effect")
     private Set<MoveEffect> moveEffects = new HashSet<>();
+
+    @OneToMany
+    private List<HealingItem> healingItems = new ArrayList<>();
+
 
     public Effect() {
     }
@@ -80,4 +87,12 @@ public class Effect {
         this.damage = damage;
     }
 
+
+    public List<HealingItem> getHealingItems() {
+        return healingItems;
+    }
+
+    public void setHealingItems(List<HealingItem> healingItems) {
+        this.healingItems = healingItems;
+    }
 }
