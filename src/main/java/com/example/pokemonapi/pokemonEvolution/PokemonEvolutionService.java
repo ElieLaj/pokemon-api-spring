@@ -47,25 +47,6 @@ public class PokemonEvolutionService {
             }
         }
 
-
-        pokemonEvolution.setFromPokemon(this.pokemonRepository.findById(dto.getFromPokemon()).orElseThrow(
-                () -> new IllegalStateException("Base pokemon not found")
-        ));
-
-        Pokemon base = this.pokemonRepository.findById(dto.getFromPokemon()).orElseThrow();
-
-        for(PokemonMove move : base.getPokemonMoves()){
-            PokemonMove pokemonMove = new PokemonMove();
-            pokemonMove.setPokemon(pokemonRepository.findById(dto.getToPokemon()).orElseThrow());
-            pokemonMove.setMove(move.getMove());
-            pokemonMove.setLevel(move.getLevel());
-            if (pokemonMoveRepository.findPokemonMovesByMove_NameAndPokemon_Name(pokemonMove.getMove().getName(), pokemonMove.getPokemon().getName()).isPresent()) {
-            }
-            else {
-                pokemonMoveRepository.save(pokemonMove);
-            }
-        }
-
         pokemonEvolution.setLevelRequired(dto.getLevel());
 
         return this.pokemonEvolutionRepository.save(pokemonEvolution);
