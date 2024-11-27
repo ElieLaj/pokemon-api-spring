@@ -25,7 +25,7 @@ public class HealingItemController {
         return healingItemService.addHealingItem(dto);
     }
 
-    @PatchMapping("{healingItemId}")
+    @PatchMapping(path = "{healingItemId}")
     public HealingItem patchHealingItem(
             @PathVariable Long healingItemId,
             @RequestBody HealingItemDTO dto
