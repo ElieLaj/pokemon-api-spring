@@ -37,9 +37,9 @@ public class HealingItemService {
     }
 
     public HealingItem patchHealingItem(Long healingItemId, HealingItemDTO newItem){
-        HealingItem healingItem = healingItemRepository.findById(healingItemId).orElseThrow(
-                () -> new IllegalStateException("Couldn't find Healing Item with id:" + newItem.getId())
-        );
+        System.out.println("healingItemId inside Service = " + healingItemId);
+
+        HealingItem healingItem = healingItemRepository.findHealingItemById(healingItemId);
 
         healingItem.setStatusHeal(effectRepository.findById(newItem.getEffect()).orElseThrow(
                 () -> new IllegalStateException("Couldn't find Effect with id:" + newItem.getEffect())
@@ -54,5 +54,9 @@ public class HealingItemService {
         healingItem.setPrice(newItem.getPrice());
 
         return healingItemRepository.save(healingItem);
+    }
+
+    public void deleteHealingItem(Long healingItemId) {
+        healingItemRepository.deleteById(healingItemId);
     }
 }

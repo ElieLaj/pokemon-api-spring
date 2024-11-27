@@ -32,4 +32,9 @@ public class HealingItemController {
     ){
         return healingItemService.patchHealingItem(healingItemId, dto);
     }
+
+    @DeleteMapping(path = "{healingItemId}")
+    public void deleteHealingItem(@PathVariable Long healingItemId){
+        healingItemService.deleteHealingItem(healingItemId);
+    }
 }
