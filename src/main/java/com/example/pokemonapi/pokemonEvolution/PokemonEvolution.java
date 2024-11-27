@@ -13,11 +13,10 @@ public class PokemonEvolution {
 
     @ManyToOne
     @JoinColumn(name = "from_pokemon_id")
-    @JsonIgnoreProperties({"evolutions", "fromPokemon"})
+    @JsonIgnoreProperties({"evolutions"})
     private Pokemon fromPokemon;
 
     @ManyToOne
-    @JsonIgnoreProperties({"evolutions", "toPokemon"})
     @JoinColumn(name = "to_pokemon_id")
     private Pokemon toPokemon;
 
