@@ -24,7 +24,7 @@ public class AuthenticationService {
     public static Authentication getAuthentication(HttpServletRequest request) {
         String apiKey = request.getHeader(AUTH_TOKEN_HEADER_NAME);
         if (apiKey == null || !apiKey.equals(apiKeyConfig.getApiKey())) {
-            throw new BadCredentialsException("Invalid API Key: " + AUTH_TOKEN_HEADER_NAME + " " + apiKey + " " + apiKeyConfig.getApiKey());
+            throw new BadCredentialsException("Invalid API Key");
         }
 
         return new ApiKeyAuthentication(apiKey, AuthorityUtils.NO_AUTHORITIES);
