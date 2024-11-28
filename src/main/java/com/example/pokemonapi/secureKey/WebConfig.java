@@ -13,10 +13,10 @@ public class WebConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:4200") // Ajoutez l'origine de votre front-end
+                        .allowedOrigins("*")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH")
-                        .allowedHeaders("*") // Autorise tous les headers, dont 'X-API-KEY'
-                        .allowCredentials(true);
+                        .allowedHeaders("*")
+                        .allowCredentials(false);
             }
         };
     }

@@ -17,8 +17,4 @@ public class PokemonApiApplication {
         SpringApplication.run(PokemonApiApplication.class, args);
     }
 
-    @GetMapping("/hello")
-    public String getHello() {
-        return "Hello, World!";
-    }
 }

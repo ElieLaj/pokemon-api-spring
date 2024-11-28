@@ -23,16 +23,20 @@ public class AuthenticationFilter extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
             throws IOException, ServletException {
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        String apiKey = httpRequest.getHeader("X-API-KEY");
+        System.out.println("Received API Key: " + apiKey);
+
         try {
-            Authentication authentication = AuthenticationService.getAuthentication((HttpServletRequest) request);
+            Authentication authentication = AuthenticationService.getAuthentication(httpRequest);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (Exception exp) {
-            logger.error("Authentication failed: {}", exp.getMessage(), exp);
+            System.out.println("Authentication error: " + exp.getMessage());
             HttpServletResponse httpResponse = (HttpServletResponse) response;
             httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             httpResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
             PrintWriter writer = httpResponse.getWriter();
-            writer.print(exp.getMessage());
+            writer.print("{\"error\": \"" + exp.getMessage() + "\"}");
             writer.flush();
             writer.close();
             return;

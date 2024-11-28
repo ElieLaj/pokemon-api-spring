@@ -1,9 +1,7 @@
 package com.example.pokemonapi.secureKey;
 
-import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -19,14 +17,27 @@ public class AuthenticationService {
     @Autowired
     public AuthenticationService(ApiKeyConfig apiKeyConfig) {
         AuthenticationService.apiKeyConfig = apiKeyConfig;
+        System.out.println("Injected ApiKeyConfig: " + apiKeyConfig);
+        System.out.println("ApiKey: " + apiKeyConfig.getApiKey());
+        System.out.println("ApiKeyFullAccess: " + apiKeyConfig.getApiKeyFullAccess());
     }
 
     public static Authentication getAuthentication(HttpServletRequest request) {
         String apiKey = request.getHeader(AUTH_TOKEN_HEADER_NAME);
-        if (apiKey == null || !apiKey.equals(apiKeyConfig.getApiKey())) {
-            throw new BadCredentialsException("Invalid API Key");
+        System.out.println("apiKey: " + apiKey);
+        if (apiKey == null) {
+            throw new BadCredentialsException("Missing API Key");
         }
 
-        return new ApiKeyAuthentication(apiKey, AuthorityUtils.NO_AUTHORITIES);
+        if (apiKey.equals(apiKeyConfig.getApiKey())) {
+            return new ApiKeyAuthentication(apiKey, AuthorityUtils.createAuthorityList("ROLE_LIMITED"));
+        }
+
+        if (apiKey.equals(apiKeyConfig.getApiKeyFullAccess())) {
+            return new ApiKeyAuthentication(apiKey, AuthorityUtils.createAuthorityList("ROLE_FULL_ACCESS"));
+        }
+
+        throw new BadCredentialsException("Invalid API Key");
     }
 }
+
