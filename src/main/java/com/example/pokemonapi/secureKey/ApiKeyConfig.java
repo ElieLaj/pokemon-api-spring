@@ -13,19 +13,13 @@ public class ApiKeyConfig {
     @Value("${apiKeyFullAccess}")
     private String apiKeyFullAccess;
 
-    @PostConstruct
-    public void init() {
-        System.out.println("Standard API Key: " + apiKey);
-        System.out.println("Full Access API Key: " + apiKeyFullAccess);
-    }
-
     public String getApiKey() {
-        System.out.println("apiKey: " + apiKey);
+        System.out.println("Current Api key: " + apiKey);
         return apiKey;
     }
 
     public String getApiKeyFullAccess() {
-        System.out.println("apiKeyFullAccess: " + apiKeyFullAccess);
+        System.out.println("Current Full Access Api key: " + apiKeyFullAccess);
         return apiKeyFullAccess;
     }
 }

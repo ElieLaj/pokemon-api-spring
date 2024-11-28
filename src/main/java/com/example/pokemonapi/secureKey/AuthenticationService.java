@@ -17,14 +17,11 @@ public class AuthenticationService {
     @Autowired
     public AuthenticationService(ApiKeyConfig apiKeyConfig) {
         AuthenticationService.apiKeyConfig = apiKeyConfig;
-        System.out.println("Injected ApiKeyConfig: " + apiKeyConfig);
-        System.out.println("ApiKey: " + apiKeyConfig.getApiKey());
-        System.out.println("ApiKeyFullAccess: " + apiKeyConfig.getApiKeyFullAccess());
     }
 
     public static Authentication getAuthentication(HttpServletRequest request) {
         String apiKey = request.getHeader(AUTH_TOKEN_HEADER_NAME);
-        System.out.println("apiKey: " + apiKey);
+
         if (apiKey == null) {
             throw new BadCredentialsException("Missing API Key");
         }
