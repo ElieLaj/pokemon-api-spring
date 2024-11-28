@@ -37,21 +37,15 @@ public class StagePokemonService {
             return stage;
         }
 
-        public Stage removePokemonFromStage(Long stageId, Long pokemonId) {
-            Stage stage = (
-                    stageRepository.findById(stageId)
-                            .orElseThrow(() -> new IllegalStateException
-                                    ("Stage with id " + stageId + " not found")
-                            )
-            );
-            Pokemon pokemon = (
-                    pokemonRepository.findById(pokemonId)
-                            .orElseThrow(() -> new IllegalStateException
-                                    ("Pokemon with id " + pokemonId + " not found")
-                            )
-            );
-            stage.removePokemon(pokemon);
-            return stageRepository.save(stage);
-        }
+    public Stage removePokemonFromStage(Long stageId, Long pokemonId) {
+        Stage stage = stageRepository.findById(stageId)
+                .orElseThrow(() -> new IllegalStateException("Stage with id " + stageId + " not found"));
+        Pokemon pokemon = pokemonRepository.findById(pokemonId)
+                .orElseThrow(() -> new IllegalStateException("Pokemon with id " + pokemonId + " not found"));
+
+        stage.removePokemon(pokemon);
+        stageRepository.save(stage);
+        return stage;
+    }
 
 }

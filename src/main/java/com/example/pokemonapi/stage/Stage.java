@@ -45,8 +45,8 @@ public class Stage {
 
     public void removePokemon(Pokemon pokemon) {
         if (this.pokemons.contains(pokemon)) {
-            pokemon.removeStage(this);
             this.pokemons.remove(pokemon);
+            pokemon.removeStage(this);
         }
     }
 

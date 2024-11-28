@@ -99,8 +99,8 @@ public class Pokemon {
 
     public void removeStage(Stage stage) {
         if (this.stages.contains(stage)) {
-            stage.removePokemon(this);
             stages.remove(stage);
+            stage.removePokemon(this);
         }
     }
 
